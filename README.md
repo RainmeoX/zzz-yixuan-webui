@@ -20,27 +20,50 @@
 - **ZZZ 官网风格**：赛博朋克 + 霓虹 + 黄黑配色
 - **纯前端**：HTML + CSS + JS，无框架依赖
 - **华丽 UI**：
-  - 霓虹发光效果
-  - 扫描线动画
-  - 故障文字效果
-  - 网格背景
+  - 金色发光边框
+  - 角色立绘展示
   - 角色档案卡片
   - 思考中动画
+  - 消息进入动画
 - **响应式**：支持桌面和移动端
+
+## 📱 设备适配
+
+### 桌面端（>1200px）
+- 三栏布局：左侧角色立绘 + 中间聊天 + 右侧功能面板
+- 横版背景图
+
+### 平板端（768-1200px）
+- 两栏布局：中间聊天 + 右侧功能面板
+- 隐藏左侧立绘
+
+### 手机端（<768px）
+- **单栏布局**：仅聊天区
+- **底部导航栏**：档案 / 对话 / 功能
+- **抽屉式侧边栏**：
+  - 左滑出：角色档案
+  - 右滑出：功能设置 + 快捷提问
+- **竖版背景图**
+- 触摸优化
+
+### 超小屏幕（<480px）
+- 进一步精简界面
 
 ## 📁 项目结构
 
 ```
 zzz-yixuan-webui/
-├── index.html          # 主页面
+├── index.html              # 主页面
 ├── css/
-│   └── style.css       # 样式（ZZZ风格）
+│   └── style.css           # 样式（ZZZ风格 + 响应式）
 ├── js/
-│   └── app.js          # 前端逻辑（调用API）
-├── assets/             # 静态资源
-│   ├── favicon.ico
-│   ├── zzz_bg_01.jpg   # 背景图
-│   └── zzz_hero.png    # 角色图
+│   └── app.js              # 前端逻辑（调用API）
+├── assets/                 # 静态资源
+│   ├── favicon.ico         # 图标
+│   ├── yixuan_03.png       # 原始立绘
+│   ├── yixuan_main.png     # 显示用立绘
+│   ├── zzz_bg_desktop.png  # 桌面横版背景
+│   └── zzz_bg_mobile.jpg   # 手机竖版背景
 └── README.md
 ```
 
@@ -104,8 +127,42 @@ const MODEL_NAME = 'yixuan-lora';
 
 ## 📦 相关仓库
 
-- **后端**: [zzz-yixuan-assistant](https://github.com/RainmeoX/zzz-yixuan-assistant) - 模型训练 + vLLM 服务
-- **数据集**: [zzz-yixuan-dataset](https://github.com/RainmeoX/zzz-yixuan-dataset) - 角色资料
+| 仓库 | 说明 |
+|---|---|
+| **后端** | [zzz-yixuan-assistant](https://github.com/RainmeoX/zzz-yixuan-assistant) - 模型训练 + vLLM 服务 |
+| **数据集** | [zzz-yixuan-dataset](https://github.com/RainmeoX/zzz-yixuan-dataset) - 角色资料 |
+
+## 💡 对话方式
+
+除了网页界面，还可以用以下方式对话：
+
+### OpenCode（推荐）
+
+后端仓库提供了 OpenCode 配置，可以在终端用 OpenCode 对话：
+
+```bash
+# 在后端仓库目录
+./scripts/setup-opencode.sh
+opencode run "你是谁？"
+```
+
+### 命令行
+
+```bash
+./scripts/chat.sh "你是谁？"
+```
+
+### API 调用
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -d '{
+        "model": "yixuan-lora",
+        "messages": [{"role": "user", "content": "你是谁？"}],
+        "max_tokens": 200
+    }'
+```
 
 ## 📄 License
 
