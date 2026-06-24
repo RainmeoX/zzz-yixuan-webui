@@ -11,7 +11,6 @@
     <!-- 背景层 -->
     <div class="bg-layer"></div>
     <div class="bg-grid"></div>
-    <div class="scan-line"></div>
 
     <div class="container">
         <!-- 顶部导航 -->
@@ -19,7 +18,7 @@
             <div class="logo">
                 <div class="logo-icon">玄</div>
                 <div>
-                    <div class="logo-text glitch">YIXUAN</div>
+                    <div class="logo-text">YIXUAN</div>
                     <div class="logo-subtitle">云岿山第十三代门主</div>
                 </div>
             </div>
@@ -29,42 +28,41 @@
             </div>
         </header>
 
-        <!-- 主内容 -->
+        <!-- 主内容 - 左中右三栏 -->
         <main class="main-content">
-            <!-- 对话区域 -->
-            <section class="chat-section">
-                <!-- 角色信息栏 -->
-                <div class="char-bar">
-                    <div class="char-avatar">玄</div>
-                    <div class="char-info">
+            <!-- 左侧 - 角色立绘 -->
+            <aside class="sidebar-left">
+                <div class="char-portrait">
+                    <img src="assets/zzz_bg_01.jpg" alt="仪玄">
+                    <div class="char-name">
                         <h2>仪玄</h2>
-                        <p>虚狩级调查员 · 玄墨属性 · 命破特性</p>
+                        <p>云岿山 · 第十三代门主</p>
                     </div>
                 </div>
+            </aside>
 
-                <!-- 消息区 -->
-                <div class="chat-messages" id="messages">
-                    <!-- 消息会动态添加 -->
+            <!-- 中间 - 聊天区 -->
+            <section class="chat-section">
+                <div class="chat-header">
+                    <h3>◈ 对话 · DIALOGUE</h3>
                 </div>
-
-                <!-- 输入区 -->
+                <div class="chat-messages" id="messages">
+                    <div class="message bot">
+                        <div class="message-avatar bot">玄</div>
+                        <div class="message-content">既入山门，那些俗务繁礼便留在山下吧。为师仪玄，云岿山第十三代门主。你且说来，所为何事？</div>
+                    </div>
+                </div>
                 <div class="chat-input-area">
                     <div class="chat-input-wrapper">
-                        <textarea 
-                            class="chat-input" 
-                            id="chatInput"
-                            placeholder="问为师何事？"
-                            rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn">
-                            发送
-                        </button>
+                        <textarea class="chat-input" id="chatInput" placeholder="向仪玄提问..." rows="1"></textarea>
+                        <button class="send-btn" id="sendBtn">发送</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 侧边栏 -->
-            <aside class="sidebar">
-                <!-- 角色信息 -->
+            <!-- 右侧 - 功能面板 -->
+            <aside class="sidebar-right">
+                <!-- 角色档案 -->
                 <div class="sidebar-card">
                     <h3>◈ 角色档案</h3>
                     <div class="char-stats">

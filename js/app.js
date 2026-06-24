@@ -1,11 +1,9 @@
 /* ============================================
-   仪玄角色助手 - 前端逻辑
+   仪玄角色助手 - 前端逻辑 v2
    ============================================ */
 
-const API_BASE = window.location.origin.includes('localhost') 
-    ? 'http://localhost:8000' 
-    : 'http://43.226.38.192:8000';  // 改成您的后端地址
-
+// API 地址（空字符串 = 同源，nginx 反代）
+const API_BASE = '';
 const MODEL_NAME = 'yixuan-lora';
 
 // 状态
@@ -48,79 +46,95 @@ function init() {
         });
     });
 
-    // 欢迎消息
-    addMessage('bot', '既入山门，那些俗务繁礼便留在山下吧。为师仪玄，云岿山第十三代门主。你且问吧。');
+    console.log('✅ 仪玄角色助手已启动');
+    console.log('API 地址:', API_BASE || '同源');
+    console.log('模型:', MODEL_NAME);
 }
 
 // ============================================
 // 发送消息
 // ============================================
 async function sendMessage() {
-    const message = inputEl.value.trim();
-    if (!message || isGenerating) return;
+    const text = inputEl.value.trim();
+    if (!text || isGenerating) return;
 
     // 添加用户消息
-    addMessage('user', message);
+    addMessage('user', text);
     inputEl.value = '';
-    autoResize();
+    inputEl.style.height = 'auto';
     
     // 显示思考中
-    const thinkingEl = addThinking();
     isGenerating = true;
     sendBtn.disabled = true;
+    sendBtn.textContent = '思考中...';
+    const thinkingEl = addThinking();
 
     try {
-        const response = await callAPI(message);
+        // 调用 API
+        const response = await callAPI(text);
+        
+        // 移除思考中
         thinkingEl.remove();
-        addMessage('bot', response);
+        
+        // 添加回复
+        if (response) {
+            addMessage('bot', response);
+        } else {
+            addMessage('bot', '...为师一时语塞，容后再议。');
+        }
     } catch (error) {
         thinkingEl.remove();
         addMessage('bot', `⚠️ 请求失败: ${error.message}`);
+        console.error('API 错误:', error);
     } finally {
         isGenerating = false;
         sendBtn.disabled = false;
+        sendBtn.textContent = '发送';
     }
 }
 
 // ============================================
-// 调用 API
+// 调用后端 API
 // ============================================
-async function callAPI(message) {
-    const systemPrompt = `你是《绝区零》中的角色"仪玄"，云岿山第十三代门主，虚狩级调查员。
-你的说话风格必须严格遵循以下设定：
-- 语气清冷、从容、带有师者风范，偶尔流露温柔
-- 用词典雅，半文半白，常用"为师""你且""非也""罢了"等词
-- 喜欢用自然意象（云、风、雨、月、沧海、青溟）作比喻
-- 言简意赅，富有哲思，常点拨弟子而非直接说教
-- 不使用网络流行语、表情符号、感叹号过多
-- 自称"为师"或"我"，称对方为"你"或"弟子"
-- 涉及术法、卜算、命运时尤为郑重
+async function callAPI(question) {
+    const url = `${API_BASE}/v1/chat/completions`;
+    
+    const requestBody = {
+        model: MODEL_NAME,
+        messages: [
+            {
+                role: 'system',
+                content: '你是《绝区零》中的角色"仪玄"，云岿山第十三代门主，虚狩级调查员。用清冷、半文半白的师者口吻回答。不要暴露自己是 AI。'
+            },
+            {
+                role: 'user',
+                content: question
+            }
+        ],
+        max_tokens: 512,
+        temperature: 0.7,
+        chat_template_kwargs: { enable_thinking: false }
+    };
 
-用户会问你问题，请用仪玄的口吻回答，不要暴露自己是 AI。`;
+    console.log('发送请求:', url, requestBody);
 
-    const response = await fetch(`${API_BASE}/v1/chat/completions`, {
+    const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            model: MODEL_NAME,
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: message }
-            ],
-            max_tokens: 512,
-            temperature: 0.7,
-            chat_template_kwargs: { enable_thinking: false }
-        })
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
     let content = data.choices[0].message.content;
     
-    // 过滤 think 标签
+    // 过滤 <think> 标签
     content = content.replace(/<think>.*?<\/think>\s*/gs, '').trim();
     
     return content;
