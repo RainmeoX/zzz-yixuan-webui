@@ -203,21 +203,11 @@ body {
     object-fit: cover;
     object-position: center top;
     opacity: 1;
-    filter: 
-        drop-shadow(0 0 40px rgba(255, 209, 0, 0.4))
-        contrast(1.1)
-        saturate(1.15)
-        brightness(1.05);
-    transition: transform 0.5s, filter 0.5s;
+    transition: transform 0.5s;
 }
 
 .char-portrait img:hover {
     transform: scale(1.03);
-    filter: 
-        drop-shadow(0 0 50px rgba(255, 209, 0, 0.6))
-        contrast(1.15)
-        saturate(1.25)
-        brightness(1.1);
 }
 
 .char-portrait::after {
