@@ -34,7 +34,7 @@ body {
     position: relative;
 }
 
-/* 背景层 - 仪玄场景图 */
+/* 背景层 - ZZZ 官方背景图 */
 .bg-layer {
     position: fixed;
     top: 0;
@@ -44,10 +44,10 @@ body {
     z-index: -2;
     background: 
         linear-gradient(135deg, 
-            rgba(10, 10, 10, 0.75) 0%, 
-            rgba(10, 10, 10, 0.5) 50%, 
-            rgba(10, 10, 10, 0.85) 100%),
-        url('../assets/yixuan_bg_scene.png') center/cover no-repeat;
+            rgba(10, 10, 10, 0.7) 0%, 
+            rgba(10, 10, 10, 0.4) 50%, 
+            rgba(10, 10, 10, 0.8) 100%),
+        url('../assets/zzz_bg_1080p.png') center/cover no-repeat;
     background-attachment: fixed;
 }
 

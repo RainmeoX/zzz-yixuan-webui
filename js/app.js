@@ -140,20 +140,35 @@ async function callAPI(question) {
         const choice = data.choices[0];
         const message = choice.message || choice.delta || {};
         
-        // 尝试多种字段
+        // 打印 message 的所有字段
+        console.log('message 字段:', Object.keys(message));
+        console.log('message 完整内容:', JSON.stringify(message));
+        
+        // 尝试多种字段（按优先级）
         content = message.content 
                || message.reasoning_content 
+               || message.refusal
                || choice.text
                || '';
         
-        console.log('提取的 content:', content);
+        // 如果 content 还是空，遍历 message 所有字段找非空字符串
+        if (!content || content.trim() === '') {
+            for (const key in message) {
+                if (typeof message[key] === 'string' && message[key].trim() !== '') {
+                    console.log(`从 ${key} 提取内容:`, message[key]);
+                    content = message[key];
+                    break;
+                }
+            }
+        }
+        
+        console.log('最终提取的 content:', content);
     } catch (e) {
         console.error('解析响应失败:', e, '原始数据:', data);
     }
     
     if (!content || content.trim() === '') {
-        // 如果还是空，返回完整响应的字符串形式便于调试
-        throw new Error(`响应内容为空。完整响应: ${JSON.stringify(data).slice(0, 200)}`);
+        throw new Error(`响应内容为空。message字段: ${JSON.stringify(data.choices[0].message).slice(0, 300)}`);
     }
     
     // 过滤 <think> 标签
