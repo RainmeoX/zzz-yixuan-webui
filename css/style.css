@@ -150,7 +150,7 @@ body {
 .main-content {
     flex: 1;
     display: grid;
-    grid-template-columns: 280px 1fr 320px;
+    grid-template-columns: 400px 1fr 320px;
     gap: 16px;
     padding: 16px;
     overflow: hidden;
@@ -161,27 +161,34 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
 }
 
 .char-portrait {
     flex: 1;
-    background: linear-gradient(180deg, rgba(20, 20, 20, 0.6), rgba(10, 10, 10, 0.8));
+    background: linear-gradient(180deg, rgba(20, 20, 20, 0.3) 0%, rgba(10, 10, 10, 0.6) 100%);
     border: 1px solid rgba(255, 209, 0, 0.2);
     border-radius: 12px;
     overflow: hidden;
     position: relative;
     display: flex;
-    align-items: flex-end;
+    align-items: stretch;
     justify-content: center;
+    min-height: 500px;
 }
 
 .char-portrait img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center bottom;
-    opacity: 0.95;
-    filter: drop-shadow(0 0 30px rgba(255, 209, 0, 0.3));
+    object-fit: cover;
+    object-position: center top;
+    opacity: 1;
+    filter: drop-shadow(0 0 40px rgba(255, 209, 0, 0.4)) contrast(1.1);
+    transition: transform 0.5s;
+}
+
+.char-portrait img:hover {
+    transform: scale(1.03);
 }
 
 .char-portrait::after {
@@ -190,8 +197,21 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50%;
+    height: 40%;
     background: linear-gradient(180deg, transparent, rgba(10, 10, 10, 0.95));
+    pointer-events: none;
+}
+
+.char-portrait::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.6), transparent);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .char-portrait .char-name {
