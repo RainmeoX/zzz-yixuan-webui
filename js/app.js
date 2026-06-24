@@ -66,6 +66,9 @@ function init() {
     console.log('✅ 仪玄角色助手已启动');
     console.log('API 地址:', API_BASE || '同源');
     console.log('模型:', MODEL_NAME);
+    
+    // 添加初始问候语
+    addMessage('bot', '既入山门，那些俗务繁礼便留在山下吧。为师仪玄，云岿山第十三代门主。你且说来，所为何事？');
 }
 
 // ============================================
