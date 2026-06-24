@@ -63,7 +63,7 @@ body {
                 rgba(10, 10, 10, 0.1) 0%, 
                 rgba(10, 10, 10, 0.1) 50%, 
                 rgba(10, 10, 10, 0.3) 100%),
-            url('../assets/zzz_bg_mobile.png');
+            url('../assets/zzz_bg_mobile.jpg');
         background-size: cover;
         background-position: center top;
         background-attachment: scroll;
