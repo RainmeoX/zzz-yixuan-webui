@@ -34,16 +34,33 @@ function init() {
     // 自动调整输入框高度
     inputEl.addEventListener('input', autoResize);
 
-    // 开关事件
+    // 开关事件（桌面）
     ragToggle.addEventListener('click', () => toggleSwitch(ragToggle, 'rag'));
     validationToggle.addEventListener('click', () => toggleSwitch(validationToggle, 'validation'));
+
+    // 开关事件（手机）
+    const ragToggleMobile = document.getElementById('ragToggleMobile');
+    const validationToggleMobile = document.getElementById('validationToggleMobile');
+    if (ragToggleMobile) {
+        ragToggleMobile.addEventListener('click', () => toggleSwitch(ragToggleMobile, 'rag'));
+    }
+    if (validationToggleMobile) {
+        validationToggleMobile.addEventListener('click', () => toggleSwitch(validationToggleMobile, 'validation'));
+    }
 
     // 快捷问题
     document.querySelectorAll('.quick-question').forEach(btn => {
         btn.addEventListener('click', () => {
-            inputEl.value = btn.textContent;
+            inputEl.value = btn.textContent.replace(/^▸\s*/, '');
             sendMessage();
+            closeDrawer('right');
         });
+    });
+
+    // 抽屉遮罩点击关闭
+    document.getElementById('drawerOverlay').addEventListener('click', () => {
+        closeDrawer('left');
+        closeDrawer('right');
     });
 
     console.log('✅ 仪玄角色助手已启动');
@@ -230,6 +247,28 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// ============================================
+// 抽屉控制
+// ============================================
+function openDrawer(side) {
+    const drawer = side === 'left' ? document.getElementById('drawerLeft') : document.getElementById('drawerRight');
+    const overlay = document.getElementById('drawerOverlay');
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+}
+
+function closeDrawer(side) {
+    const drawer = side === 'left' ? document.getElementById('drawerLeft') : document.getElementById('drawerRight');
+    const overlay = document.getElementById('drawerOverlay');
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
+function scrollToBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    inputEl.focus();
 }
 
 // 启动

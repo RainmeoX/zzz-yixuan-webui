@@ -2,8 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仪玄 · 云岿山门主 | 绝区零角色助手</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>仪玄 · 云岿山门主</title>
     <link rel="icon" href="assets/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,6 +13,62 @@
     <!-- 背景层 -->
     <div class="bg-layer"></div>
     <div class="bg-grid"></div>
+
+    <!-- 手机端抽屉遮罩 -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- 手机端抽屉 - 角色档案 -->
+    <aside class="drawer drawer-left" id="drawerLeft">
+        <div class="drawer-header">
+            <h3>◈ 角色档案</h3>
+            <button class="drawer-close" onclick="closeDrawer('left')">✕</button>
+        </div>
+        <div class="drawer-content">
+            <div class="char-portrait-mini">
+                <img src="assets/yixuan_main.png" alt="仪玄">
+            </div>
+            <div class="char-stats">
+                <div class="stat-item"><div class="stat-label">阵营</div><div class="stat-value">云岿山</div></div>
+                <div class="stat-item"><div class="stat-label">属性</div><div class="stat-value">玄墨</div></div>
+                <div class="stat-item"><div class="stat-label">特性</div><div class="stat-value">命破</div></div>
+                <div class="stat-item"><div class="stat-label">生日</div><div class="stat-value">12月3日</div></div>
+                <div class="stat-item"><div class="stat-label">身高</div><div class="stat-value">172cm</div></div>
+                <div class="stat-item"><div class="stat-label">CV</div><div class="stat-value">张昱</div></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 手机端抽屉 - 设置&提问 -->
+    <aside class="drawer drawer-right" id="drawerRight">
+        <div class="drawer-header">
+            <h3>◈ 功能面板</h3>
+            <button class="drawer-close" onclick="closeDrawer('right')">✕</button>
+        </div>
+        <div class="drawer-content">
+            <div class="setting-section">
+                <h4>功能设置</h4>
+                <div class="setting-item">
+                    <span class="setting-label">🔍 RAG 检索</span>
+                    <div class="toggle active" id="ragToggleMobile"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">🛡️ 回答校验</span>
+                    <div class="toggle active" id="validationToggleMobile"></div>
+                </div>
+            </div>
+            <div class="setting-section">
+                <h4>快捷提问</h4>
+                <div class="quick-questions">
+                    <button class="quick-question">你是谁？</button>
+                    <button class="quick-question">师父，既入山门，该当如何？</button>
+                    <button class="quick-question">如何修习术法？</button>
+                    <button class="quick-question">仪玄的姐姐是谁？</button>
+                    <button class="quick-question">什么是动静之道？</button>
+                    <button class="quick-question">师父，我工作压力大怎么办？</button>
+                </div>
+            </div>
+        </div>
+    </aside>
 
     <div class="container">
         <!-- 顶部导航 -->
@@ -47,53 +105,30 @@
                     <h3>◈ 对话 · DIALOGUE</h3>
                 </div>
                 <div class="chat-messages" id="messages">
-                    <div class="message bot">
-                        <div class="message-avatar bot">玄</div>
-                        <div class="message-content">既入山门，那些俗务繁礼便留在山下吧。为师仪玄，云岿山第十三代门主。你且说来，所为何事？</div>
-                    </div>
+                    <!-- 消息会动态添加 -->
                 </div>
                 <div class="chat-input-area">
                     <div class="chat-input-wrapper">
-                        <textarea class="chat-input" id="chatInput" placeholder="向仪玄提问..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn">发送</button>
+                        <textarea id="chatInput" class="chat-input" placeholder="向仪玄提问..." rows="1"></textarea>
+                        <button id="sendBtn" class="send-btn">发送</button>
                     </div>
                 </div>
             </section>
 
             <!-- 右侧 - 功能面板 -->
             <aside class="sidebar-right">
-                <!-- 角色档案 -->
                 <div class="sidebar-card">
                     <h3>◈ 角色档案</h3>
                     <div class="char-stats">
-                        <div class="stat-item">
-                            <div class="stat-label">阵营</div>
-                            <div class="stat-value">云岿山</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">属性</div>
-                            <div class="stat-value">玄墨</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">特性</div>
-                            <div class="stat-value">命破</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">生日</div>
-                            <div class="stat-value">12月3日</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">身高</div>
-                            <div class="stat-value">172cm</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">CV</div>
-                            <div class="stat-value">张昱</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-label">阵营</div><div class="stat-value">云岿山</div></div>
+                        <div class="stat-item"><div class="stat-label">属性</div><div class="stat-value">玄墨</div></div>
+                        <div class="stat-item"><div class="stat-label">特性</div><div class="stat-value">命破</div></div>
+                        <div class="stat-item"><div class="stat-label">生日</div><div class="stat-value">12月3日</div></div>
+                        <div class="stat-item"><div class="stat-label">身高</div><div class="stat-value">172cm</div></div>
+                        <div class="stat-item"><div class="stat-label">CV</div><div class="stat-value">张昱</div></div>
                     </div>
                 </div>
 
-                <!-- 设置 -->
                 <div class="sidebar-card">
                     <h3>◈ 功能设置</h3>
                     <div class="setting-item">
@@ -106,7 +141,6 @@
                     </div>
                 </div>
 
-                <!-- 快捷问题 -->
                 <div class="sidebar-card">
                     <h3>◈ 快捷提问</h3>
                     <div class="quick-questions">
@@ -120,6 +154,22 @@
                 </div>
             </aside>
         </main>
+
+        <!-- 手机端底部导航 -->
+        <nav class="mobile-nav">
+            <button class="nav-btn" onclick="openDrawer('left')">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">档案</span>
+            </button>
+            <button class="nav-btn nav-btn-center" onclick="scrollToBottom()">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">对话</span>
+            </button>
+            <button class="nav-btn" onclick="openDrawer('right')">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">功能</span>
+            </button>
+        </nav>
     </div>
 
     <script src="js/app.js"></script>
