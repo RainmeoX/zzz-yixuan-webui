@@ -132,22 +132,28 @@ async function callAPI(question) {
     }
 
     const data = await response.json();
-    console.log('API 响应:', data);
+    console.log('API 完整响应:', JSON.stringify(data, null, 2));
     
     // 兼容多种响应格式
     let content = null;
     try {
-        content = data.choices[0].message.content;
-        // 如果 content 为空，尝试 reasoning_content
-        if (!content && data.choices[0].message.reasoning_content) {
-            content = data.choices[0].message.reasoning_content;
-        }
+        const choice = data.choices[0];
+        const message = choice.message || choice.delta || {};
+        
+        // 尝试多种字段
+        content = message.content 
+               || message.reasoning_content 
+               || choice.text
+               || '';
+        
+        console.log('提取的 content:', content);
     } catch (e) {
-        console.error('解析响应失败:', e);
+        console.error('解析响应失败:', e, '原始数据:', data);
     }
     
-    if (!content) {
-        throw new Error('响应内容为空');
+    if (!content || content.trim() === '') {
+        // 如果还是空，返回完整响应的字符串形式便于调试
+        throw new Error(`响应内容为空。完整响应: ${JSON.stringify(data).slice(0, 200)}`);
     }
     
     // 过滤 <think> 标签
