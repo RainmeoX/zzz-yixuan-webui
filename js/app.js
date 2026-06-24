@@ -132,7 +132,23 @@ async function callAPI(question) {
     }
 
     const data = await response.json();
-    let content = data.choices[0].message.content;
+    console.log('API 响应:', data);
+    
+    // 兼容多种响应格式
+    let content = null;
+    try {
+        content = data.choices[0].message.content;
+        // 如果 content 为空，尝试 reasoning_content
+        if (!content && data.choices[0].message.reasoning_content) {
+            content = data.choices[0].message.reasoning_content;
+        }
+    } catch (e) {
+        console.error('解析响应失败:', e);
+    }
+    
+    if (!content) {
+        throw new Error('响应内容为空');
+    }
     
     // 过滤 <think> 标签
     content = content.replace(/<think>.*?<\/think>\s*/gs, '').trim();
