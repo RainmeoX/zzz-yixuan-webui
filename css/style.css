@@ -34,7 +34,7 @@ body {
     position: relative;
 }
 
-/* 背景层 - ZZZ 官方背景图（铺满不变形） */
+/* 背景层 - 桌面用横版，手机用竖版 */
 .bg-layer {
     position: fixed;
     top: 0;
@@ -47,11 +47,26 @@ body {
             rgba(10, 10, 10, 0.7) 0%, 
             rgba(10, 10, 10, 0.4) 50%, 
             rgba(10, 10, 10, 0.8) 100%),
-        url('../assets/zzz_bg_1080p.png');
+        url('../assets/zzz_bg_desktop.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+
+/* 手机端用竖版背景 */
+@media (max-width: 768px) {
+    .bg-layer {
+        background: 
+            linear-gradient(180deg, 
+                rgba(10, 10, 10, 0.6) 0%, 
+                rgba(10, 10, 10, 0.5) 50%, 
+                rgba(10, 10, 10, 0.9) 100%),
+            url('../assets/zzz_bg_mobile.png');
+        background-size: cover;
+        background-position: center top;
+        background-attachment: scroll;
+    }
 }
 
 /* 网格背景 */
@@ -578,11 +593,85 @@ body {
     }
 }
 
+/* 手机端适配 */
 @media (max-width: 768px) {
     .main-content {
         grid-template-columns: 1fr;
+        padding: 8px;
+        gap: 8px;
     }
+    
     .sidebar-right {
         display: none;
+    }
+    
+    .header {
+        padding: 8px 12px;
+    }
+    
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    
+    .logo-text {
+        font-size: 1.2rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.65rem;
+    }
+    
+    .chat-section {
+        min-height: calc(100vh - 120px);
+    }
+    
+    .chat-messages {
+        padding: 12px;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+    
+    .message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+    
+    .message-content {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+    }
+    
+    .chat-input-area {
+        padding: 8px;
+    }
+    
+    #chatInput {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+    }
+    
+    .send-btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 超小屏幕 */
+@media (max-width: 480px) {
+    .logo-subtitle {
+        display: none;
+    }
+    
+    .status-badge span {
+        display: none;
+    }
+    
+    .message-content {
+        font-size: 0.85rem;
     }
 }
