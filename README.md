@@ -1,8 +1,8 @@
 # Stream Chat WebUI
 
-> 纯原生 HTML/CSS/JS 流式对话前端：无框架、主题化视觉、RAG 开关 ｜ 配合 vLLM 后端使用
+> 纯原生 HTML/CSS/JS 流式对话前端：无框架、主题可配置、RAG 开关 ｜ 配合 vLLM 后端使用
 
-轻量级对话 WebUI，配合后端 [style-chat-assistant](https://github.com/RainmeoX/style-chat-assistant) 的 vLLM 服务使用。验证「不上前端框架，纯原生也能做出完整对话体验」。
+这是一个**可复用的对话前端模板**（绝区零官网风格为当前演示实例，主题样式可整体替换），配合后端 [style-chat-assistant](https://github.com/RainmeoX/style-chat-assistant) 的 vLLM 服务使用。验证「不上前端框架，纯原生也能做出完整对话体验」。
 
 ## 特性
 
