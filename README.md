@@ -1,7 +1,5 @@
 # ZZZ Yixuan WebUI
 
-> ℹ️ 可复用的对话前端模板：主题样式可整体替换，绝区零官网风格只是当前演示实例。
-
 绝区零仪玄角色助手的前端界面，配合后端 [zzz-yixuan-assistant](https://github.com/RainmeoX/zzz-yixuan-assistant) 的 vLLM 服务使用。
 
 ## 项目背景
